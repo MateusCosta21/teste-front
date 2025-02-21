@@ -1,74 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Button, Card, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
+import MusicCard from '../components/MusicCard';
 
-interface Sugestao {
+interface Music {
     id: number;
     titulo: string;
     youtube_id: string;
-    status: string;
+    visualizacoes: number;
+    thumb: string;
 }
 
-const Admin: React.FC = () => {
-    const [sugestoes, setSugestoes] = useState<Sugestao[]>([]);
+const Home: React.FC = () => {
+    const [musics, setMusics] = useState<Music[]>([]);
 
     useEffect(() => {
-        api.get('/sugestoes').then(response => {
-            setSugestoes(response.data);
+        api.get('/musicas').then(response => {
+            setMusics(response.data.data);
         });
     }, []);
 
-    const handleAprovar = (id: number) => {
-        api.patch(`/sugestoes/${id}/status`, { status: 'aprovado' }).then(() => {
-            setSugestoes(sugestoes.filter(sugestao => sugestao.id !== id));
-        });
-    };
-
-    const handleRejeitar = (id: number) => {
-        api.patch(`/sugestoes/${id}/status`, { status: 'rejeitado' }).then(() => {
-            setSugestoes(sugestoes.filter(sugestao => sugestao.id !== id));
-        });
-    };
-
     return (
         <div>
-            <Typography variant="h4" gutterBottom>
-                Painel de Administração
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-                Sugestões Pendentes
-            </Typography>
-            {sugestoes.length === 0 ? (
-                <Typography variant="body1">Nenhuma sugestão pendente.</Typography>
-            ) : (
-                <List>
-                    {sugestoes.map(sugestao => (
-                        <Card key={sugestao.id} sx={{ marginBottom: 2 }}>
-                            <CardContent>
-                                <Typography variant="h6">{sugestao.titulo}</Typography>
-                                <Typography variant="body2">ID do YouTube: {sugestao.youtube_id}</Typography>
-                                <Button
-                                    variant="contained"
-                                    color="success"
-                                    sx={{ marginRight: 1 }}
-                                    onClick={() => handleAprovar(sugestao.id)}
-                                >
-                                    Aprovar
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={() => handleRejeitar(sugestao.id)}
-                                >
-                                    Rejeitar
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </List>
-            )}
+            <h5>Top 5 Músicas Mais Tocadas</h5>
+            {musics.map((music, index) => (
+                <MusicCard key={music.id} music={music} rank={index + 1} />
+            ))}
         </div>
     );
 };
 
-export default Admin;
+export default Home;
