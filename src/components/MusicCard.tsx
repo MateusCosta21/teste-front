@@ -15,8 +15,11 @@ const MusicCard: React.FC<MusicCardProps> = ({ music, rank }) => {
     return (
         <Card sx={{ 
             display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
             alignItems: 'center',
             justifyContent: 'space-between',
+            width: '100%', 
+            maxWidth: 500, 
             marginBottom: 2, 
             borderRadius: 2, 
             boxShadow: 3,
@@ -27,6 +30,7 @@ const MusicCard: React.FC<MusicCardProps> = ({ music, rank }) => {
                 transform: 'scale(1.02)',
             },
         }}>
+        
           
             <CardMedia
                 component="img"
