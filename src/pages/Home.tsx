@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Grid, Pagination } from "@mui/material";
+import { Box, Typography, Pagination } from "@mui/material";
 import api from "../services/api";
 import MusicCard from "../components/MusicCard";
 import EditMusicModal from "../components/EditMusicModal";
@@ -69,19 +69,25 @@ const Home: React.FC = () => {
         Top 5 Músicas Mais Tocadas
       </Typography>
 
-      <Grid container spacing={2} justifyContent="center" sx={{ width: "100%" }}>
+      {/* Container flexível para alinhar os cards na mesma linha */}
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        gap={2} // Define espaçamento entre os cards
+        justifyContent="center" // Centraliza os cards na tela
+        sx={{ width: "100%" }}
+      >
         {currentMusic.map((music, index) => (
-          <Grid item xs={12} sm={6} md={4} key={music.id}>
-            <MusicCard
-              music={music}
-              rank={index + 1 + (page - 1) * musicPerPage}
-              handleEdit={() => handleOpenEditModal(music.id, music.youtube_id)}
-              handleDelete={() => handleOpenDeleteModal(music.id)}
-              isAdmin={user?.is_admin || false} // Passando a informação de admin
-            />
-          </Grid>
+          <MusicCard
+            key={music.id}
+            music={music}
+            rank={index + 1 + (page - 1) * musicPerPage}
+            handleEdit={() => handleOpenEditModal(music.id, music.youtube_id)}
+            handleDelete={() => handleOpenDeleteModal(music.id)}
+            isAdmin={user?.is_admin || false} // Passando a informação de admin
+          />
         ))}
-      </Grid>
+      </Box>
 
       <Pagination
         count={Math.ceil(musics.length / musicPerPage)}
