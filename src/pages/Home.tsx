@@ -22,12 +22,10 @@ const Home: React.FC = () => {
   const [user, setUser] = useState<{ name: string; is_admin: boolean } | null>(null);
 
   useEffect(() => {
-    // Buscar músicas da API
     api.get("/musicas").then((response) => {
       setMusics(response.data.data);
     });
 
-    // Verificar se há usuário logado no localStorage
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -69,12 +67,12 @@ const Home: React.FC = () => {
         Top 5 Músicas Mais Tocadas
       </Typography>
 
-      {/* Container flexível para alinhar os cards na mesma linha */}
+     
       <Box
         display="flex"
         flexWrap="wrap"
-        gap={2} // Define espaçamento entre os cards
-        justifyContent="center" // Centraliza os cards na tela
+        gap={2}
+        justifyContent="center" 
         sx={{ width: "100%" }}
       >
         {currentMusic.map((music, index) => (
@@ -84,7 +82,7 @@ const Home: React.FC = () => {
             rank={index + 1 + (page - 1) * musicPerPage}
             handleEdit={() => handleOpenEditModal(music.id, music.youtube_id)}
             handleDelete={() => handleOpenDeleteModal(music.id)}
-            isAdmin={user?.is_admin || false} // Passando a informação de admin
+            isAdmin={user?.is_admin || false} 
           />
         ))}
       </Box>
