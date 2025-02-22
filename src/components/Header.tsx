@@ -4,7 +4,11 @@ import LoginModal from "./LoginModal";
 import SuggestionModal from "./SuggestionModal"; 
 import AdminRequestsModal from "./AdminRequestsModal";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  handleEditMusic: (musicId: number, youtubeId: string) => void; // ✅ Definição correta do tipo
+}
+
+const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
   const [open, setOpen] = useState(false);
   const [openSuggestionModal, setOpenSuggestionModal] = useState(false);
   const [openAdminModal, setOpenAdminModal] = useState(false);
@@ -41,9 +45,15 @@ const Header: React.FC = () => {
           {user ? (
             <>
               {user.is_admin && (
-                <Button color="inherit" onClick={handleOpenAdminModal}>
-                  Solicitações
-                </Button>
+                <>
+                  <Button color="inherit" onClick={handleOpenAdminModal}>
+                    Solicitações
+                  </Button>
+                  {/* Botão de editar exemplo, passando um ID e YouTube ID */}
+                  <Button color="inherit" onClick={() => handleEditMusic(1, "youtube_id_exemplo")}>
+                    Editar Música
+                  </Button>
+                </>
               )}
               <Button color="inherit" onClick={handleOpenSuggestionModal}>
                 Sugestões

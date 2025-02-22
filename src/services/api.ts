@@ -6,7 +6,7 @@ api.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem('token');
 
-    if (token && !config.url?.includes('/musicas')) {
+    if (token && !(config.url === '/musicas')) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;

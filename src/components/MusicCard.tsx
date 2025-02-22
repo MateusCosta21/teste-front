@@ -1,68 +1,33 @@
-import React from 'react';
-import { Card, Typography, CardMedia, Box } from '@mui/material';
+import React from "react";
+import { Card, CardContent, Typography, CardMedia, Button } from "@mui/material";
 
 interface MusicCardProps {
-    music: {
-        titulo: string;
-        youtube_id: string;
-        visualizacoes: number;
-        thumb: string;
-    };
-    rank: number;
+  music: {
+    id: number;
+    titulo: string;
+    youtube_id: string;
+    visualizacoes: number;
+    thumb: string;
+  };
+  rank: number;
+  handleEdit: () => void; // ✅ Correção: Sem parâmetros aqui!
 }
 
-const MusicCard: React.FC<MusicCardProps> = ({ music, rank }) => {
-    return (
-        <Card sx={{ 
-            display: 'flex', 
-            flexDirection: { xs: 'column', sm: 'row' }, 
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%', 
-            maxWidth: 500, 
-            marginBottom: 2, 
-            borderRadius: 2, 
-            boxShadow: 3,
-            transition: 'transform 0.2s',
-            backgroundColor: '#1e1e1e',
-            color: 'white',
-            '&:hover': {
-                transform: 'scale(1.02)',
-            },
-        }}>
-        
-          
-            <CardMedia
-                component="img"
-                sx={{ 
-                    width: 150, 
-                    height: 150, 
-                    objectFit: 'cover', 
-                    borderRadius: '8px 0 0 8px',
-                }}
-                image={music.thumb}
-                alt={music.titulo}
-            />
-
-        
-            <Box sx={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                flexGrow: 1, 
-                padding: 2,
-                textAlign: 'center' 
-            }}>
-                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                    #{rank} - {music.titulo}
-                </Typography>
-                <Typography variant="body2" color="gray" sx={{ marginTop: 1 }}>
-                    {music.visualizacoes.toLocaleString()} visualizações
-                </Typography>
-            </Box>
-        </Card>
-    );
+const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit }) => {
+  return (
+    <Card sx={{ maxWidth: 345, backgroundColor: "#1e1e1e", color: "white" }}>
+      <CardMedia component="img" height="140" image={music.thumb} alt={music.titulo} />
+      <CardContent>
+        <Typography variant="h6">
+          #{rank} {music.titulo}
+        </Typography>
+        <Typography variant="body2">Visualizações: {music.visualizacoes}</Typography>
+        <Button onClick={handleEdit} variant="contained" color="secondary" sx={{ marginTop: 2 }}>
+          Editar
+        </Button>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default MusicCard;
