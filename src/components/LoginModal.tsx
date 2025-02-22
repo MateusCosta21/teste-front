@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Box, TextField, Button } from "@mui/material";
+import { Modal, Box, TextField, Button, Typography } from "@mui/material";
 import api from "../services/api";
 
 interface LoginModalProps {
@@ -19,19 +19,18 @@ const style = {
   p: 4,
 };
 
-const LoginModal: React.FC<LoginModalProps> = ({
-  open,
-  handleClose,
-  setUser,
-}) => {
+const LoginModal: React.FC<LoginModalProps> = ({ open, handleClose, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null); 
+  const [loading, setLoading] = useState<boolean>(false); 
 
   const handleLogin = async () => {
+    setLoading(true);
+    setError(null); 
     try {
       const response = await api.post("/login", { email, password });
       const userData = response.data.user;
-      debugger;
       const roles = response.data.roles;
       const isAdmin = roles.includes("admin");
 
@@ -39,18 +38,27 @@ const LoginModal: React.FC<LoginModalProps> = ({
         name: userData.name,
         is_admin: isAdmin,
       };
-
       localStorage.setItem("user", JSON.stringify(user));
-      setUser(user);
+      localStorage.setItem("token", response.data.access_token); 
+      setUser(user); 
       handleClose();
     } catch (error) {
       console.error("Erro ao fazer login:", error);
+      setError("Credenciais inválidas. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
+        <Typography variant="h6" sx={{ marginBottom: 2 }}>
+          Login
+        </Typography>
+
+        {error && <Typography color="error" sx={{ marginBottom: 2 }}>{error}</Typography>}
+
         <TextField
           fullWidth
           label="Email"
@@ -71,8 +79,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
           variant="contained"
           sx={{ mt: 2 }}
           onClick={handleLogin}
+          disabled={loading} 
         >
-          Login
+          {loading ? "Entrando..." : "Login"}
         </Button>
       </Box>
     </Modal>
