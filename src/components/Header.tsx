@@ -48,11 +48,7 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
                 <>
                   <Button color="inherit" onClick={handleOpenAdminModal}>
                     Solicitações
-                  </Button>
-                  {/* Botão de editar exemplo, passando um ID e YouTube ID */}
-                  <Button color="inherit" onClick={() => handleEditMusic(1, "youtube_id_exemplo")}>
-                    Editar Música
-                  </Button>
+                  </Button>    
                 </>
               )}
               <Button color="inherit" onClick={handleOpenSuggestionModal}>

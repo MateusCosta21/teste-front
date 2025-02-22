@@ -1,30 +1,53 @@
 import React from "react";
-import { Card, CardContent, Typography, CardMedia, Button } from "@mui/material";
+import { Card, CardContent, Button, Typography, Box, CardMedia } from "@mui/material";
 
 interface MusicCardProps {
-  music: {
-    id: number;
-    titulo: string;
-    youtube_id: string;
-    visualizacoes: number;
-    thumb: string;
+  music: { 
+    id: number; 
+    youtube_id: string; 
+    titulo: string; 
+    visualizacoes: number; 
+    thumb: string; 
   };
   rank: number;
-  handleEdit: () => void; // ✅ Correção: Sem parâmetros aqui!
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit }) => {
+const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit, handleDelete }) => {
   return (
-    <Card sx={{ maxWidth: 345, backgroundColor: "#1e1e1e", color: "white" }}>
-      <CardMedia component="img" height="140" image={music.thumb} alt={music.titulo} />
+    <Card sx={{ maxWidth: 345, backgroundColor: "#1c1c1c", color: "white" }}>
+      <CardMedia
+        component="img"
+        height="140"
+        image={music.thumb}
+        alt={music.titulo}
+      />
       <CardContent>
-        <Typography variant="h6">
-          #{rank} {music.titulo}
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>
+          {rank}. {music.titulo}
         </Typography>
-        <Typography variant="body2">Visualizações: {music.visualizacoes}</Typography>
-        <Button onClick={handleEdit} variant="contained" color="secondary" sx={{ marginTop: 2 }}>
-          Editar
-        </Button>
+        <Typography variant="body2" sx={{ marginBottom: 2 }}>
+          Visualizações: {music.visualizacoes}
+        </Typography>
+        <Box display="flex" gap={2}>
+          <Button
+            onClick={handleEdit}
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%" }}
+          >
+            Editar
+          </Button>
+          <Button
+            onClick={handleDelete}
+            variant="contained"
+            color="error"
+            sx={{ width: "100%" }}
+          >
+            Deletar
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );
