@@ -19,11 +19,19 @@ const Home: React.FC = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState<{ id: number; youtube_id: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; is_admin: boolean } | null>(null);
 
   useEffect(() => {
+    // Buscar músicas da API
     api.get("/musicas").then((response) => {
       setMusics(response.data.data);
     });
+
+    // Verificar se há usuário logado no localStorage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   const musicPerPage = 5;
@@ -44,7 +52,7 @@ const Home: React.FC = () => {
   };
 
   const handleDeleteConfirm = (id: number) => {
-    setMusics(musics.filter((music) => music.id !== id)); 
+    setMusics(musics.filter((music) => music.id !== id));
   };
 
   return (
@@ -69,6 +77,7 @@ const Home: React.FC = () => {
               rank={index + 1 + (page - 1) * musicPerPage}
               handleEdit={() => handleOpenEditModal(music.id, music.youtube_id)}
               handleDelete={() => handleOpenDeleteModal(music.id)}
+              isAdmin={user?.is_admin || false} // Passando a informação de admin
             />
           </Grid>
         ))}
