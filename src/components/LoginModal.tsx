@@ -42,6 +42,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, handleClose, setUser }) =
       localStorage.setItem("token", response.data.access_token); 
       setUser(user); 
       handleClose();
+      window.location.reload(); 
+
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       setError("Credenciais inválidas. Tente novamente.");

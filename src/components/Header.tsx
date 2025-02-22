@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import LoginModal from "./LoginModal";
 import SuggestionModal from "./SuggestionModal"; 
 import AdminRequestsModal from "./AdminRequestsModal";
@@ -14,6 +14,7 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
   const [openSuggestionModal, setOpenSuggestionModal] = useState(false);
   const [openAdminModal, setOpenAdminModal] = useState(false);
   const [openUrlModal, setOpenUrlModal] = useState(false);  
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const [user, setUser] = useState<{ name: string; is_admin: boolean } | null>(null);
 
   useEffect(() => {
@@ -25,9 +26,21 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleLogout = () => {
+    setLogoutDialogOpen(true);
+  };
+
+  const confirmLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setUser(null);
+    setLogoutDialogOpen(false);
+    window.location.reload(); // Recarrega a página após o logout
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setLogoutDialogOpen(false);
   };
 
   const handleOpenSuggestionModal = () => setOpenSuggestionModal(true);
@@ -78,6 +91,22 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
       <SuggestionModal open={openSuggestionModal} handleClose={handleCloseSuggestionModal} />
       <AdminRequestsModal open={openAdminModal} handleClose={handleCloseAdminModal} />
       <UrlModal open={openUrlModal} handleClose={handleCloseUrlModal} />
+
+      {/* Modal de confirmação de logout */}
+      <Dialog open={logoutDialogOpen} onClose={handleCloseLogoutDialog}>
+        <DialogTitle>Confirmar Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Tem certeza de que deseja sair?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLogoutDialog} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={confirmLogout} color="error" autoFocus>
+            Sair
+          </Button>
+        </DialogActions>
+      </Dialog>
     </AppBar>
   );
 };
