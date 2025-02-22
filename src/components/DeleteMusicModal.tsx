@@ -20,7 +20,7 @@ const DeleteMusicModal: React.FC<DeleteMusicModalProps> = ({
 
     try {
       await api.delete(`/musicas/${musicId}/delete`);
-      handleDeleteConfirm(musicId); // Atualiza o estado na tela para refletir a remoção
+      handleDeleteConfirm(musicId);
       handleClose();
     } catch (error) {
       console.error("Erro ao excluir música:", error);

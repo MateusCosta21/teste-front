@@ -44,7 +44,7 @@ const Home: React.FC = () => {
   };
 
   const handleDeleteConfirm = (id: number) => {
-    setMusics(musics.filter((music) => music.id !== id)); // Atualiza a lista sem a música deletada
+    setMusics(musics.filter((music) => music.id !== id)); 
   };
 
   return (

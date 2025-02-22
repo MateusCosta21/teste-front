@@ -13,17 +13,16 @@ const EditMusicModal: React.FC<EditMusicModalProps> = ({ open, handleClose, musi
 
   useEffect(() => {
     if (music) {
-      setNewUrl(music.youtube_id); // Inicializa com o youtube_id
+      setNewUrl(music.youtube_id);
     }
   }, [music]);
 
   const handleUpdate = async () => {
     if (!music) return;
     try {
-      // Alteração aqui: usa 'url' em vez de 'youtube_id'
       await api.put(`/musicas/${music.id}/update`, { url: newUrl });
       handleClose();
-      window.location.reload(); // 🔄 Atualiza a página para refletir a alteração
+      window.location.reload(); 
     } catch (error) {
       console.error("Erro ao atualizar música:", error);
     }
@@ -46,7 +45,7 @@ const EditMusicModal: React.FC<EditMusicModalProps> = ({ open, handleClose, musi
         <Typography variant="h6">Editar Música</Typography>
         <TextField
           fullWidth
-          label="Nova URL"  // Alterado para "Nova URL"
+          label="Nova URL" 
           margin="normal"
           value={newUrl}
           onChange={(e) => setNewUrl(e.target.value)}

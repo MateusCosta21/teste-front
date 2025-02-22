@@ -3,15 +3,17 @@ import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 import LoginModal from "./LoginModal";
 import SuggestionModal from "./SuggestionModal"; 
 import AdminRequestsModal from "./AdminRequestsModal";
+import UrlModal from "./UrlModal";
 
 interface HeaderProps {
-  handleEditMusic: (musicId: number, youtubeId: string) => void; // ✅ Definição correta do tipo
+  handleEditMusic: (musicId: number, youtube_id: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
   const [open, setOpen] = useState(false);
   const [openSuggestionModal, setOpenSuggestionModal] = useState(false);
   const [openAdminModal, setOpenAdminModal] = useState(false);
+  const [openUrlModal, setOpenUrlModal] = useState(false);  
   const [user, setUser] = useState<{ name: string; is_admin: boolean } | null>(null);
 
   useEffect(() => {
@@ -34,6 +36,9 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
   const handleOpenAdminModal = () => setOpenAdminModal(true);
   const handleCloseAdminModal = () => setOpenAdminModal(false);
 
+  const handleOpenUrlModal = () => setOpenUrlModal(true);
+  const handleCloseUrlModal = () => setOpenUrlModal(false);
+
   return (
     <AppBar position="static" sx={{ width: "100%", overflowX: "hidden" }}>
       <Container maxWidth="lg">
@@ -49,6 +54,9 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
                   <Button color="inherit" onClick={handleOpenAdminModal}>
                     Solicitações
                   </Button>    
+                  <Button color="inherit" onClick={handleOpenUrlModal}>
+                    Adicionar URL
+                  </Button>
                 </>
               )}
               <Button color="inherit" onClick={handleOpenSuggestionModal}>
@@ -69,6 +77,7 @@ const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
       <LoginModal open={open} handleClose={handleClose} setUser={setUser} />
       <SuggestionModal open={openSuggestionModal} handleClose={handleCloseSuggestionModal} />
       <AdminRequestsModal open={openAdminModal} handleClose={handleCloseAdminModal} />
+      <UrlModal open={openUrlModal} handleClose={handleCloseUrlModal} />
     </AppBar>
   );
 };
