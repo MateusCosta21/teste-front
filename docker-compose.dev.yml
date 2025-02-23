@@ -6,7 +6,7 @@ services:
     working_dir: /app
     user: 'node:1000'
     volumes:
-      - .:/app
+      - .:/app:delegated
     entrypoint: ['/bin/sh', '-c', 'npm i && npm run dev -- --host 0.0.0.0']
     restart: always
     env_file: .env
