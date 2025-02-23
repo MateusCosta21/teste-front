@@ -15,8 +15,13 @@ interface MusicCardProps {
   isAdmin?: boolean; 
 }
 
-
 const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit, handleDelete, isAdmin }) => {
+
+  // Função para redirecionar ao clicar na música
+  const handleMusicClick = () => {
+    window.open(`https://www.youtube.com/watch?v=${music.youtube_id}`, "_blank");
+  };
+
   return (
     <Card
       sx={{
@@ -26,7 +31,9 @@ const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit, handleDe
         borderRadius: 2,
         overflow: "hidden",
         boxShadow: 3,
+        cursor: "pointer", // Para indicar que o card é clicável
       }}
+      onClick={handleMusicClick} // Adicionando o manipulador de clique
     >
       <CardMedia
         component="img"
