@@ -10,10 +10,11 @@ interface MusicCardProps {
     thumb: string; 
   };
   rank: number;
-  handleEdit: () => void;
-  handleDelete: () => void;
-  isAdmin: boolean;
+  handleEdit?: () => void;
+  handleDelete?: () => void;
+  isAdmin?: boolean; 
 }
+
 
 const MusicCard: React.FC<MusicCardProps> = ({ music, rank, handleEdit, handleDelete, isAdmin }) => {
   return (

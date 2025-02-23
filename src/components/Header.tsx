@@ -9,7 +9,7 @@ interface HeaderProps {
   handleEditMusic: (musicId: number, youtube_id: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ handleEditMusic }) => {
+const Header: React.FC<HeaderProps> = ({}) => {
   const [open, setOpen] = useState(false);
   const [openSuggestionModal, setOpenSuggestionModal] = useState(false);
   const [openAdminModal, setOpenAdminModal] = useState(false);

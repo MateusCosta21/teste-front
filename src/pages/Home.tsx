@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   const musicPerPage = 5;
   const currentMusic = musics.slice((page - 1) * musicPerPage, page * musicPerPage);
 
-  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
